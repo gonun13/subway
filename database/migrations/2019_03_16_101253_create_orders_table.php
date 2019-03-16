@@ -15,12 +15,8 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreign('user_id')
-                ->references('id')->on('users')
-                ->onDelete('cascade');
-            $table->foreign('meal_id')
-                ->references('id')->on('meals')
-                ->onDelete('cascade');
+            $table->bigInteger('user_id')->unsigned();;
+            $table->bigInteger('meal_id')->unsigned();;
             $table->string('bread');
             $table->string('bread_size');
             $table->binary('baked');
@@ -29,6 +25,12 @@ class CreateOrdersTable extends Migration
             $table->text('vegetables');
             $table->string('sauce');
             $table->timestamps();
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+            $table->foreign('meal_id')
+                ->references('id')->on('meals')
+                ->onDelete('cascade');
         });
     }
 
