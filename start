@@ -1,7 +1,7 @@
 sudo docker run --rm -v $(pwd):/app composer install
 sudo chown -R $USER:$USER $(pwd)/
-cp .env.example .env
 sudo chmod -R 777 storage && chmod -R 777 bootstrap/cache
+cp .env.example .env
 sudo docker-compose up -d
 sudo docker exec $(basename `pwd`)_app_1 php artisan key:generate
 sudo docker exec $(basename `pwd`)_app_1 php artisan config:clear

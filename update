@@ -1,0 +1,4 @@
+sudo chown -R $USER:$USER $(pwd)
+sudo docker exec $(basename `pwd`)_app_1 php artisan config:clear
+sudo docker exec $(basename `pwd`)_app_1 php artisan cache:clear
+sudo docker exec $(basename `pwd`)_app_1 php artisan route:clear
