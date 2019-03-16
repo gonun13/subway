@@ -11,11 +11,8 @@ class ListVegetablesSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'name' => 'Admin',
-            'email' => 'admin@admin.dom',
-            'password' => bcrypt('secret'),
-            'level' => 5,
-        ]);
+        DB::table('list_vegetables')->insert(['name' => 'garlic']);
+        DB::table('list_vegetables')->insert(['name' => 'onions']);
+        DB::table('list_vegetables')->insert(['name' => 'tomato']);
     }
 }
