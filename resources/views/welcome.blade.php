@@ -83,6 +83,16 @@
                 <div class="title m-b-md">
                     Subway Order
                 </div>
+                <div class="meal">
+                    <h2>Open Meal</h2>
+                    ---------------------<br>
+                    @if ($meal)
+                        <h4>{{ $meal->name }}</h4>
+                        <a href="/orders/create">Order</a>
+                    @else
+                        <h3>Not yet!</h3>
+                    @endif
+                </div>
             </div>
         </div>
     </body>

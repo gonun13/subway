@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'role'
     ];
 
     /**
@@ -37,6 +37,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * User can have multiple orders
+     */
+    public function orders()
+    {
+        return $this->hasMany('App\Order');
+    }
+
+    /**
+     * check if user has admin role
+     */
     public function isAdmin()
     {
         return $this->role == 'admin';

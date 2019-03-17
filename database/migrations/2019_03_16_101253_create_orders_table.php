@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
             $table->bigInteger('meal_id')->unsigned();;
             $table->string('bread');
             $table->string('bread_size');
-            $table->binary('baked');
+            $table->enum('baked', ['yes', 'no']);
             $table->string('taste');
             $table->string('extras');
             $table->text('vegetables');

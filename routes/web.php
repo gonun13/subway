@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $meal = App\Meal::where('status', 'open')->first();
+    return view('welcome', compact('meal'));
 });
 
 // Auth::routes();
@@ -43,4 +44,5 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin','AdminController@index')->name('admin');
     Route::resource('users', 'UsersController');
     Route::resource('meals', 'MealsController');
+    Route::resource('orders', 'OrdersController');
 });  
