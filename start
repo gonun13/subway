@@ -7,4 +7,4 @@ sudo docker exec $(basename `pwd`)_app_1 php artisan key:generate
 sudo docker exec $(basename `pwd`)_app_1 php artisan config:clear
 sudo docker exec $(basename `pwd`)_app_1 php artisan cache:clear
 sudo docker exec $(basename `pwd`)_app_1 php artisan migrate
-sudo docker exec $(basename `pwd`)_app_1 php db:seed
+sudo docker exec $(basename `pwd`)_app_1 php artisan db:seed
