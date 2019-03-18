@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-lg-10 col-lg-offset-1">
 
-    <h1><i class="fa fa-users"></i> Meal Administration</h1>
+    <h1><i class="fa fa-users"></i> Current Orders</h1>
 
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
@@ -11,20 +11,22 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Status</th>
-                    <th>Date/Time Added</th>
-                    <th></th>
+                    <th>Order</th>
                 </tr>
             </thead>
 
             <tbody>
-                @foreach ($meals as $meal)
+                @foreach ($orders as $order)
                 <tr>
-                    <td>{{ $meal->name }}</td>
-                    <td>{{ $meal->status }}</td>
-                    <td>{{ $meal->created_at }}</td>
+                    <td>{{ $order->user->name }}</td>
                     <td>
-                        <a href="/meals/{{ $meal->id }}/edit" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
+                        Bread {{ $order->bread }}<br>
+                        Bread_size {{ $order->bread_size }}<br> 
+                        Baked {{ $order->baked }}<br> 
+                        Taste {{ $order->taste }}<br>
+                        Extras {{ $order->extras }}<br>
+                        Vegetables {{ $order->vegetables }}<br>
+                        Sauce {{ $order->sauce }}
                     </td>
                 </tr>
                 @endforeach
@@ -32,8 +34,5 @@
 
         </table>
     </div>
-
-    <a href="/meals/create" class="btn btn-success">Add Meal</a>
-
 </div>
 @endsection

@@ -70,14 +70,11 @@ class OrdersController extends Controller
             'vegetables' => 'required|max:1000',
             'sauce' => 'required|max:255',
         ]);
-        // identify owner
-        $validatedData['user_id'] = Auth::user()->id;
         // we need an open meal
         $meal = Meal::where('status', 'open')->first();
         if ($meal) {
-            $validatedData['meal_id'] = $meal->id; 
             // add order
-            $order = Order::create($validatedData);
+            $order = Order::firstOrCreate(['user_id'=>Auth::user()->id, 'meal_id'=>$meal->id], $validatedData);
             // go home
             return redirect('/home')->with('success', 'Order is placed');
         } 

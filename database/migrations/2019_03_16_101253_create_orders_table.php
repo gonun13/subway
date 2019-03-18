@@ -31,6 +31,7 @@ class CreateOrdersTable extends Migration
             $table->foreign('meal_id')
                 ->references('id')->on('meals')
                 ->onDelete('cascade');
+            $table->unique(['user_id', 'meal_id']);
         });
     }
 

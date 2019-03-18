@@ -31,7 +31,7 @@
               <input type="radio" class="form-control" name="status" value="open">Open
               <input type="radio" class="form-control" name="status" value="closed" checked="checked">Closed
           </div>
-          <button type="submit" class="btn btn-primary">Create User</button>
+          <button type="submit" class="btn btn-primary">Create Meal</button>
       </form>
   </div>
 </div>
