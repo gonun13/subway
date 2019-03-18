@@ -39,10 +39,12 @@ Route::get('email/resend', 'Auth\VerificationController@resend')->name('verifica
 
 // Logged home
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/public/orders', 'PublicController@orders')->name('public.orders');
 
+// Admin routes
 Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin','AdminController@index')->name('admin');
     Route::resource('users', 'UsersController');
     Route::resource('meals', 'MealsController');
     Route::resource('orders', 'OrdersController');
-});  
+});

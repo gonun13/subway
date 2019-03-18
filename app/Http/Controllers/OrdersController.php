@@ -106,7 +106,18 @@ class OrdersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $order = Order::findOrFail($id);
+        $breads = ListBreads::All();
+        $sauces = ListSauces::All();
+        $tastes = ListTastes::All();
+        $vegetables = ListVegetables::All();
+        return view('order.edit', [
+            'order'=>$order,
+            'breads'=>$breads,
+            'sauces'=>$sauces,
+            'tastes'=>$tastes,
+            'vegetables'=>$vegetables,
+        ]);
     }
 
     /**
@@ -118,7 +129,30 @@ class OrdersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'bread' => 'required|max:255',
+            'bread_size' => 'required|max:255',
+            'baked' => 'required',
+            'taste' => 'required|max:255',
+            'extras' => 'required|max:255',
+            'vegetables' => 'required|max:1000',
+            'sauce' => 'required|max:255',
+        ]);
+        // identify owner
+        $validatedData['user_id'] = Auth::user()->id;
+        // we need an open meal
+        $meal = Meal::where('status', 'open')->first();
+        if ($meal) {
+            $validatedData['meal_id'] = $meal->id; 
+            // add order
+            $order = Order::whereId($id)->update($validatedData);
+            // go home
+            return redirect('/home')->with('success', 'Order is replaced');
+        } 
+        else {
+            // go home
+            return redirect('/home')->with('error', 'No open meal');
+        }
     }
 
     /**

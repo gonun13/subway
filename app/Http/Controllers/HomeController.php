@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Meal;
+use App\Order;
 
 class HomeController extends Controller
 {
@@ -23,6 +26,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        // check for current open order
+        $meal = Meal::where('status', 'open')->first();
+        $order = false;
+        if (isset($meal->id)) {
+            $order = Order::where('user_id', Auth::user()->id)->where('meal_id', $meal->id)->first();
+        }
+        // list previous orders
+        $orders = Order::where('user_id', Auth::user()->id)->get();
+        // show home
+        return view('home', ['order'=>$order, 'orders'=>$orders]);
     }
 }

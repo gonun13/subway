@@ -88,7 +88,7 @@
                     ---------------------<br>
                     @if ($meal)
                         <h4>{{ $meal->name }}</h4>
-                        <a href="/orders/create">Order</a>
+                        <a href="/orders/create">Order</a> | <a href="/public/orders">View all Orders</a>
                     @else
                         <h3>Not yet!</h3>
                     @endif
