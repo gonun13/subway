@@ -20,10 +20,8 @@ Install laravel and all vendor dependencies, set permissions, fire docker, prepa
 - Phpmyadmin available on: <your_ip>:8081
 
 Login with admin user:
+- email: admin@admin.dom
+- password: secret
 
-email: admin@admin.dom
-password: secret
-
-Access Admin Panel to create Meals and Users. Place orders at will
-
+Access Admin Panel to create Meals and Users. Place orders at will.
 Public view of all orders available at: <your_ip>:8080/public/orders
