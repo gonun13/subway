@@ -18,6 +18,8 @@ Install laravel and all vendor dependencies, set permissions, fire docker, prepa
 
 - App available on: <your_ip>:8080
 - Phpmyadmin available on: <your_ip>:8081
+-- user: homestead
+-- password: secret
 
 Login with admin user:
 - email: admin@admin.dom
