@@ -63,9 +63,13 @@
           </div>
           <div class="form-group">
               <label for="vegetables">Vegetables:</label>
-              <select class="form-control" name="vegetables">
+              <select class="form-control" name="vegetables[]" multiple='multiple'>
                 @foreach ($vegetables->all() as $vegetable)
-                  <option value="{{ $vegetable->name }}" {{ $order->vegetables==$vegetable->name ? 'selected="selected"' : '' }}>{{ $vegetable->name }}
+                  @if (in_array($vegetable->name, $order->vegetables))
+                    <option value="{{ $vegetable->name }}" selected="selected">{{ $vegetable->name }}
+                  @else
+                    <option value="{{ $vegetable->name }}">{{ $vegetable->name }}
+                  @endif
                 @endforeach
               </select>
           </div>

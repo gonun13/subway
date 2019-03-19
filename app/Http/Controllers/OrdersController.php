@@ -41,16 +41,42 @@ class OrdersController extends Controller
      */
     public function create()
     {
-        $breads = ListBreads::All();
-        $sauces = ListSauces::All();
-        $tastes = ListTastes::All();
-        $vegetables = ListVegetables::All();
-        return view('order.create', [
-            'breads'=>$breads,
-            'sauces'=>$sauces,
-            'tastes'=>$tastes,
-            'vegetables'=>$vegetables,
-        ]);
+        // find the open meal
+        $meal = Meal::where('status', 'open')->first();
+        // we can only order on an open meal
+        if ($meal) {
+            // if user already ordered, let him change it instead
+            $order = Order::where('meal_id', $meal->id)->where('user_id', Auth::user()->id)->first();
+            if ($order) {
+                return redirect('/orders/'.$order->id.'/edit');
+            }
+            // populate with previous order in present
+            $order = Order::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->first();
+            if ($order) {
+                $order->vegetables = explode(',', $order->vegetables);
+            }
+            // new order
+            else {
+                $order = new Order();
+                $order->vegetables = array();
+            }
+            // we need our dynamic ingridients to build form
+            $breads = ListBreads::All();
+            $sauces = ListSauces::All();
+            $tastes = ListTastes::All();
+            $vegetables = ListVegetables::All();
+            return view('order.create', [
+                'order'=>$order,
+                'breads'=>$breads,
+                'sauces'=>$sauces,
+                'tastes'=>$tastes,
+                'vegetables'=>$vegetables,
+            ]);
+        }
+        // no open meal, go home
+        else {
+            return redirect('/home')->with('error', 'No open meal');
+        }
     }
 
     /**
@@ -61,6 +87,9 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
+        // join our vegetables
+        $request->merge(['vegetables' => implode(",", $request->vegetables)]);
+        // validate data
         $validatedData = $request->validate([
             'bread' => 'required|max:255',
             'bread_size' => 'required|max:255',
@@ -78,6 +107,7 @@ class OrdersController extends Controller
             // go home
             return redirect('/home')->with('success', 'Order is placed');
         } 
+        // no open meal is a failure
         else {
             // go home
             return redirect('/home')->with('error', 'No open meal');
@@ -103,18 +133,31 @@ class OrdersController extends Controller
      */
     public function edit($id)
     {
-        $order = Order::findOrFail($id);
-        $breads = ListBreads::All();
-        $sauces = ListSauces::All();
-        $tastes = ListTastes::All();
-        $vegetables = ListVegetables::All();
-        return view('order.edit', [
-            'order'=>$order,
-            'breads'=>$breads,
-            'sauces'=>$sauces,
-            'tastes'=>$tastes,
-            'vegetables'=>$vegetables,
-        ]);
+        // find order for this user
+        $order = Order::where('user_id', Auth::user()->id)->findOrFail($id);
+        // if meal is still open
+        if ($order->meal->status == 'open')
+        {
+            // adapt order vegetables
+            $order->vegetables = explode(',', $order->vegetables);
+            // dynamic lists to build form
+            $breads = ListBreads::All();
+            $sauces = ListSauces::All();
+            $tastes = ListTastes::All();
+            $vegetables = ListVegetables::All();
+            // display form
+            return view('order.edit', [
+                'order'=>$order,
+                'breads'=>$breads,
+                'sauces'=>$sauces,
+                'tastes'=>$tastes,
+                'vegetables'=>$vegetables,
+            ]);
+        }
+        // else order cant be changed
+        else {
+            return redirect('/home')->with('error', 'Meal already closed');
+        }
     }
 
     /**
@@ -126,6 +169,9 @@ class OrdersController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // join our vegetables
+        $request->merge(['vegetables' => implode(",", $request->vegetables)]);
+        // validate data
         $validatedData = $request->validate([
             'bread' => 'required|max:255',
             'bread_size' => 'required|max:255',
@@ -135,19 +181,16 @@ class OrdersController extends Controller
             'vegetables' => 'required|max:1000',
             'sauce' => 'required|max:255',
         ]);
-        // identify owner
-        $validatedData['user_id'] = Auth::user()->id;
         // we need an open meal
         $meal = Meal::where('status', 'open')->first();
-        if ($meal) {
-            $validatedData['meal_id'] = $meal->id; 
-            // add order
-            $order = Order::whereId($id)->update($validatedData);
+        if ($meal) { 
+            // change order by user/meal to prevent users from changing each others orders
+            $order = Order::updateOrCreate(['user_id'=>Auth::user()->id, 'meal_id'=>$meal->id], $validatedData);
             // go home
             return redirect('/home')->with('success', 'Order is replaced');
         } 
+        // fail to home
         else {
-            // go home
             return redirect('/home')->with('error', 'No open meal');
         }
     }

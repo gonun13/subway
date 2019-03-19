@@ -33,8 +33,8 @@ class HomeController extends Controller
             $order = Order::where('user_id', Auth::user()->id)->where('meal_id', $meal->id)->first();
         }
         // list previous orders
-        $orders = Order::where('user_id', Auth::user()->id)->get();
+        $orders = Order::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->get();
         // show home
-        return view('home', ['order'=>$order, 'orders'=>$orders]);
+        return view('home', ['order'=>$order, 'orders'=>$orders, 'meal'=>$meal]);
     }
 }

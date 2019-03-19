@@ -47,12 +47,19 @@ class MealsController extends Controller
      */
     public function store(Request $request)
     {
+        // validade meal
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'status' => 'required',
         ]);
+        // we can only have one open meal
+        $meal = Meal::where('status', 'open')->first();
+        if ($meal && $validatedData['status']=='open') {
+            return redirect('/meals')->with('error', 'There is already an open meal!');
+        }
+        // create new meal
         $meal = Meal::create($validatedData);
-   
+        // go back to meals
         return redirect('/meals')->with('success', 'Meal is successfully saved');
     }
 
@@ -75,8 +82,9 @@ class MealsController extends Controller
      */
     public function edit($id)
     {
+        // find meal
         $meal = Meal::findOrFail($id);
-
+        // show edit view
         return view('meal.edit', compact('meal'));
     }
 
@@ -89,12 +97,19 @@ class MealsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // validate form
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'status' => 'required',
         ]);
+        // we can only have one open meal
+        $meal = Meal::where('status', 'open')->first();
+        if ($meal && $validatedData['status']=='open') {
+            return redirect('/meals')->with('error', 'There is already an open meal!');
+        }
+        // update meal
         Meal::whereId($id)->update($validatedData);
-   
+        // go back to meals
         return redirect('/meals')->with('success', 'Meal is successfully saved');
     }
 

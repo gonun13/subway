@@ -17,15 +17,25 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    @if ($meal)
+                        <div>
+                            Open Meal: {{ $meal->name }} ({{ $meal->created_at }})<br> 
+                        </div>
+                    @else
+                        <div>Meals are closed!</div>
+                    @endif
+                    <br>
                     @if ($order)
-                        Current order: <b>{{ $order->meal->name }}</b> (<a href="/orders/{{ $order->id }}/edit">change</a>)<br>
+                        Current order (<a href="/orders/{{ $order->id }}/edit">change</a>)<br>
                         Bread {{ $order->bread }}<br>
                         Bread_size {{ $order->bread_size }}<br> 
                         Baked {{ $order->baked }}<br> 
                         Taste {{ $order->taste }}<br>
                         Extras {{ $order->extras }}<br>
                         Vegetables {{ $order->vegetables }}<br>
-                        Sauce {{ $order->sauce }} 
+                        Sauce {{ $order->sauce }}
+                    @else
+                        <a href="/orders/create">Place Order</a>
                     @endif
                     <br><br>
                     Previous Meals

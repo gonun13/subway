@@ -4,7 +4,11 @@
 <div class="col-lg-10 col-lg-offset-1">
 
     <h1><i class="fa fa-users"></i> Meal Administration</h1>
-
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
 
