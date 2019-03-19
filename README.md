@@ -1,8 +1,8 @@
 # subway
 Simple order system for organizations
 
-Steps to install (requires sudo level)
-(Tested on a fresh Ubuntu 18 only with docker and docker compose)
+Steps to install
+(Tested on a fresh Ubuntu 18 only with docker and docker compose. Requires sudo level.)
 ```
 git clone git@github.com:gonun13/subway.git
 
