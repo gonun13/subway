@@ -16,8 +16,8 @@ Install laravel and all vendor dependencies, set permissions, fire docker, prepa
 
 ## How to test
 
-App available on: <your_ip>:8080
-Phpmyadmin available on: <your_ip>:8081
+- App available on: <your_ip>:8080
+- Phpmyadmin available on: <your_ip>:8081
 
 Login with admin user:
 
