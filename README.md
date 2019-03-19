@@ -26,3 +26,11 @@ Phpmyadmin available on: <your_ip>:8081
 
 Access Admin Panel to create Meals and Users. Place orders at will.
 Public view of all orders available at: <your_ip>:8080/public/orders
+
+### Relevant info
+
+Laravel migrations handle database generation but a subway.sql is available. You can find migrations and seeds in /database.
+
+Most of the code is found in /app and views in /resources/views.
+
+
