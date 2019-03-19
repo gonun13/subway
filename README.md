@@ -16,13 +16,12 @@ Install laravel and all vendor dependencies, set permissions, fire docker, prepa
 
 ## How to test
 
-- App available on: <your_ip>:8080
-- Phpmyadmin available on: <your_ip>:8081
-- user: homestead
+App available on: <your_ip>:8080
+- email: admin@admin.dom
 - password: secret
 
-Login with admin user:
-- email: admin@admin.dom
+Phpmyadmin available on: <your_ip>:8081
+- user: homestead
 - password: secret
 
 Access Admin Panel to create Meals and Users. Place orders at will.
